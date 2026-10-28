@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Payslip | HCM Lite</title>
+  <link rel="stylesheet" href="css/dark-mode.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fb;
+      color: #1e293b;
+    }
+    header {
+      background: #172554;
+      color: white;
+      padding: 18px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    header a { color: white; text-decoration: none; margin-left: 14px; }
+    main { max-width: 950px; margin: 30px auto; padding: 0 16px; }
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, .06);
+    }
+    h1 { margin-top: 0; font-size: 27px; }
+    h2 { font-size: 19px; margin-top: 0; }
+    .muted { color: #64748b; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .field { padding: 12px; background: #f8fafc; border-radius: 8px; overflow-wrap: anywhere; }
+    .field small { display: block; color: #64748b; margin-bottom: 6px; }
+    .amount { font-size: 20px; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 13px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    th:last-child, td:last-child { text-align: right; }
+    .net {
+      background: #eff6ff;
+      padding: 18px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    button {
+      border: 0; border-radius: 8px; padding: 12px 18px;
+      cursor: pointer; font-size: 15px; background: #2563eb; color: white;
+    }
+    button.secondary { background: #475569; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .message { padding: 14px; border-radius: 8px; background: #fff7ed; color: #9a3412; }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 17px; }
+      h1 { font-size: 23px; }
+    }
+    @media print {
+      body { background: white; }
+      header, .actions, .no-print { display: none !important; }
+      main { max-width: none; margin: 0; padding: 0; }
+      .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>HCM Lite — My Payslip</strong>
+    <nav>
+      <a href="employee.html">Dashboard</a>
+      <a href="index.html" id="logoutLink">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="actions">
+      <button onclick="window.print()">Print / Save as PDF</button>
+      <button class="secondary" onclick="window.location.href='employee.html'">Back to Dashboard</button>
+    </div>
+
+    <section class="card">
+      <h1>My Payslip</h1>
+      <p class="muted">Apni salary details yahan check karein.</p>
+      <div id="statusMessage" class="message">Payslip load ho rahi hai...</div>
+    </section>
+
+    <div id="payslipContent" hidden>
+      <section class="card">
+        <h2>Employee Details</h2>
+        <div class="grid">
+          <div class="field"><small>Employee Name</small><strong id="employeeName">—</strong></div>
+          <div class="field"><small>Employee ID</small><strong id="employeeId">—</strong></div>
+          <div class="field"><small>Email</small><strong id="employeeEmail">—</strong></div>
+          <div class="field"><small>Department</small><strong id="employeeDepartment">—</strong></div>
+          <div class="field"><small>Designation</small><strong id="employeeDesignation">—</strong></div>
+          <div class="field"><small>Salary Period</small><strong id="salaryPeriod">Current Month</strong></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Salary Breakdown</h2>
+        <table>
+          <thead><tr><th>Description</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Basic Salary</td><td id="basicSalary">0</td></tr>
+            <tr><td>Allowances</td><td id="allowances">0</td></tr>
+            <tr><td>Bonus</td><td id="bonus">0</td></tr>
+            <tr><td>Deductions</td><td id="deductions">0</td></tr>
+          </tbody>
+        </table>
+        <div class="net" style="margin-top:18px">
+          <span>Net Salary</span><span id="netSalary">0</span>
+        </div>
+        <p class="muted">Note: Ye figures employee record mein save salary data se banti hain. Tax, overtime ya doosri deductions tabhi shamil hongi jab unka data record mein maujood ho.</p>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/payslip.js"></script>
+  <script src="js/helper.js"></script>
+  <script src="js/dark-mode.js"></script>
+</body>
+</html>

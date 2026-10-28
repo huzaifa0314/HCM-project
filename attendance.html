@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance | HCM Lite</title>
+  <link rel="stylesheet" href="css/dark-mode.css">
+  <style>
+    
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #182230;
+    }
+    header {
+      background: #172554;
+      color: white;
+      padding: 22px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    header h1 { margin: 0; font-size: 22px; }
+    header a { color: white; }
+    main { max-width: 1100px; margin: 30px auto; padding: 0 18px; }
+    .card {
+      background: white;
+      border: 1px solid #e1e7ef;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 18px #1725540a;
+    }
+    .muted { color: #64748b; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #2563eb;
+      color: white;
+    }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .secondary { background: #0f766e; }
+    .notice { padding: 12px; border-radius: 8px; margin-top: 14px; }
+    .success { background: #dcfce7; color: #166534; }
+    .error { background: #fee2e2; color: #991b1b; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    th { background: #f8fafc; font-size: 13px; }
+    .pill {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+    @media (max-width: 600px) {
+      header { padding: 18px; }
+      main { margin-top: 18px; }
+      .card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HCM Lite — Attendance</h1>
+    <a href="admin.html">Back to Dashboard</a>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2 id="welcome">Attendance</h2>
+      <p class="muted" id="todayDate"></p>
+      <p id="message" aria-live="polite"></p>
+    </section>
+
+    <section class="card" id="employeePanel" hidden>
+      <h2>Today's Attendance</h2>
+      <p id="todayStatus">Loading...</p>
+      <div class="actions">
+        <button id="checkInButton">Check In</button>
+        <button id="checkOutButton" class="secondary">Check Out</button>
+      </div>
+      <p class="muted">
+        Late status office start time aur grace minutes se calculate hota hai.
+        5 ghante se kam kaam par Half Day mark hota hai.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2 id="historyHeading">Attendance History</h2>
+      <p class="muted" id="historyDescription"></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr id="tableHead"></tr>
+          </thead>
+          <tbody id="attendanceRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/attendance.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      const message = document.getElementById("message");
+      const employeePanel = document.getElementById("employeePanel");
+      const rows = document.getElementById("attendanceRows");
+
+      function safe(value) {
+        if (window.HCMUtils && typeof HCMUtils.escapeHTML === "function") {
+          return HCMUtils.escapeHTML(String(value ?? ""));
+        }
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;",
+          '"': "&quot;", "'": "&#39;"
+        })[char]);
+      }
+
+      function showMessage(text, type) {
+        message.textContent = text;
+        message.className = type ? "notice " + type : "";
+      }
+
+      function getUser() {
+        return HCMAuth.getCurrentUser();
+      }
+
+      function refreshEmployeePanel(user) {
+        employeePanel.hidden = false;
+
+        const today = HCMAttendance.getTodayStatus(user.id);
+        const record = today.record;
+
+        document.getElementById("todayStatus").textContent = record
+          ? "Check-in: " + record.checkIn +
+            " | Check-out: " + (record.checkOut || "Not checked out") +
+            " | Status: " + today.status +
+            (today.late ? " | Late" : "")
+          : "Abhi tak check-in nahi hua.";
+
+        document.getElementById("checkInButton").disabled = Boolean(record);
+        document.getElementById("checkOutButton").disabled =
+          !record || Boolean(record.checkOut);
+
+        document.getElementById("tableHead").innerHTML =
+          "<th>Date</th><th>Check In</th><th>Check Out</th><th>Worked</th><th>Status</th><th>Late</th>";
+
+        document.getElementById("historyHeading").textContent =
+          "Meri Attendance History";
+        document.getElementById("historyDescription").textContent =
+          "Sirf aapke apne attendance records.";
+
+        const history = HCMAttendance.getEmployeeHistory(user.id);
+
+        rows.innerHTML = history.length
+          ? history.map(item => `
+              <tr>
+                <td>${safe(item.date)}</td>
+                <td>${safe(item.checkIn || "—")}</td>
+                <td>${safe(item.checkOut || "—")}</td>
+                <td>${item.workedMinutes
+                  ? Math.floor(item.workedMinutes / 60) + "h " +
+                    (item.workedMinutes % 60) + "m"
+                  : "—"}</td>
+                <td><span class="pill">${safe(item.status || "Checked In")}</span></td>
+                <td>${item.late ? "Yes" : "No"}</td>
+              </tr>
+            `).join("")
+          : '<tr><td colspan="6">Abhi koi attendance record nahi hai.</td></tr>';
+      }
+
+      function refreshAdminPanel() {
+        employeePanel.hidden = true;
+        document.getElementById("historyHeading").textContent =
+          "All Employee Attendance";
+        document.getElementById("historyDescription").textContent =
+          "Yahan saved check-in/check-out records dikhte hain. Missing records ko agle step mein dashboard par Absent report mein dikhaya jayega.";
+
+        document.getElementById("tableHead").innerHTML =
+          "<th>Employee</th><th>Date</th><th>Check In</th><th>Check Out</th><th>Status</th><th>Late</th>";
+
+        const history = HCMAttendance.getAllHistory();
+
+        rows.innerHTML = history.length
+          ? history.map(item => `
+              <tr>
+                <td>${safe(item.employeeName)}<br><small>${safe(item.employeeEmail)}</small></td>
+                <td>${safe(item.date)}</td>
+                <td>${safe(item.checkIn || "—")}</td>
+                <td>${safe(item.checkOut || "—")}</td>
+                <td><span class="pill">${safe(item.status || "Checked In")}</span></td>
+                <td>${item.late ? "Yes" : "No"}</td>
+              </tr>
+            `).join("")
+          : '<tr><td colspan="6">Abhi koi attendance record nahi hai.</td></tr>';
+      }
+
+      try {
+        if (!HCMAuth.requireAuth(["admin", "employee"])) return;
+
+        const user = getUser();
+        if (!user) {
+          showMessage("Login session nahi mili. Dobara login karein.", "error");
+          return;
+        }
+
+        document.getElementById("welcome").textContent =
+          "Welcome, " + (user.name || user.email || user.role);
+        document.getElementById("todayDate").textContent =
+          "Date: " + HCMAttendance.localDate();
+
+        if (user.role === "employee") {
+          refreshEmployeePanel(user);
+        } else if (user.role === "admin") {
+          refreshAdminPanel();
+        } else {
+          showMessage("Is account ko attendance access nahi hai.", "error");
+        }
+
+        document.getElementById("checkInButton").addEventListener("click", () => {
+          try {
+            HCMAttendance.checkIn();
+            showMessage("Check-in save ho gaya.", "success");
+            refreshEmployeePanel(user);
+          } catch (error) {
+            showMessage(error.message || "Check-in nahi ho saka.", "error");
+          }
+        });
+
+        document.getElementById("checkOutButton").addEventListener("click", () => {
+          try {
+            HCMAttendance.checkOut();
+            showMessage("Check-out save ho gaya.", "success");
+            refreshEmployeePanel(user);
+          } catch (error) {
+            showMessage(error.message || "Check-out nahi ho saka.", "error");
+          }
+        });
+      } catch (error) {
+        showMessage(
+          "Attendance page load nahi hua: " + (error.message || "Unknown error") +
+          ". Check karein ke Step 3/4 ki files aur storage methods maujood hain.",
+          "error"
+        );
+      }
+    })();
+  </script>
+      <!-- Smart Helper -->
+    <script src="js/helper.js"></script>
+<script src="js/dark-mode.js"></script>
+</body>
+</html>

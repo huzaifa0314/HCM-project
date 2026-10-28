@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HCM Lite | Login</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg, #f5f7fb);
+    }
+
+    .auth-brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px;
+      color: white;
+      background: linear-gradient(145deg, #172554, #2563eb);
+    }
+
+    .auth-brand h1 {
+      margin: 20px 0 12px;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.1;
+    }
+
+    .auth-brand p {
+      max-width: 430px;
+      color: #dbeafe;
+      line-height: 1.8;
+    }
+
+    .auth-form-wrap {
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      padding: 32px;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, .08);
+    }
+
+    .auth-card h2 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+    }
+
+    .auth-subtitle {
+      margin: 0 0 24px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .auth-field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .auth-field label {
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .auth-field input {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 46px;
+      padding: 12px;
+      border: 1px solid #dbe2ea;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    .auth-button {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 10px;
+      color: white;
+      background: #2563eb;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .auth-button:hover {
+      background: #1d4ed8;
+    }
+
+    .auth-message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 9px;
+      line-height: 1.5;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .auth-message.error {
+      display: block;
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .auth-message.success {
+      display: block;
+      background: #f0fdf4;
+      color: #166534;
+    }
+
+    .auth-note {
+      margin-top: 20px;
+      color: #64748b;
+      font-size: .82rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 760px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-brand {
+        padding: 28px 24px;
+      }
+
+      .auth-brand h1 {
+        font-size: 2rem;
+      }
+
+      .auth-brand p {
+        margin-bottom: 0;
+      }
+
+      .auth-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="auth-page">
+    <section class="auth-brand">
+      <div>
+        <span>HCM LITE · HR MANAGEMENT</span>
+        <h1>Manage your team.<br>Simply.</h1>
+        <p>
+          Employees, attendance, leaves aur payroll ko
+          ek hi jagah manage karo.
+        </p>
+      </div>
+    </section>
+
+    <section class="auth-form-wrap">
+      <div class="auth-card">
+        <h2 id="formTitle">Welcome back</h2>
+        <p class="auth-subtitle" id="formSubtitle">
+          Apne account mein login karo.
+        </p>
+
+        <div id="message" class="auth-message" role="status"></div>
+
+        <form id="setupForm" hidden>
+          <div class="auth-field">
+            <label for="companyName">Company name</label>
+            <input id="companyName" name="companyName"
+              required maxlength="100" autocomplete="organization">
+          </div>
+
+          <div class="auth-field">
+            <label for="adminName">Admin full name</label>
+            <input id="adminName" name="adminName"
+              required maxlength="100" autocomplete="name">
+          </div>
+
+          <div class="auth-field">
+            <label for="setupEmail">Admin email</label>
+            <input id="setupEmail" name="email"
+              type="email" required autocomplete="email">
+          </div>
+
+          <div class="auth-field">
+            <label for="setupPassword">Create password</label>
+            <input id="setupPassword" name="password"
+              type="password" minlength="8" required
+              autocomplete="new-password">
+          </div>
+
+          <button class="auth-button" type="submit">
+            Create company account
+          </button>
+        </form>
+
+        <form id="loginForm" hidden>
+          <div class="auth-field">
+            <label for="loginEmail">Email address</label>
+            <input id="loginEmail" name="email"
+              type="email" required autocomplete="username">
+          </div>
+
+          <div class="auth-field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" name="password"
+              type="password" required autocomplete="current-password">
+          </div>
+
+          <button class="auth-button" type="submit">
+            Login to HCM Lite
+          </button>
+        </form>
+
+        <p class="auth-note">
+          HCM Lite Hackathon Project · Local demo version
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    const setupForm = document.getElementById("setupForm");
+    const loginForm = document.getElementById("loginForm");
+    const title = document.getElementById("formTitle");
+    const subtitle = document.getElementById("formSubtitle");
+    const message = document.getElementById("message");
+
+    function showMessage(text, type = "error") {
+      message.textContent = text;
+      message.className = "auth-message " + type;
+    }
+
+    function initializeAuthPage() {
+      const currentUser = HCMAuth.getCurrentUser();
+
+      if (currentUser) {
+        window.location.href =
+          currentUser.role === "admin" ? "admin.html" : "employee.html";
+        return;
+      }
+
+      if (!HCMAuth.setupComplete()) {
+        title.textContent = "Set up your company";
+        subtitle.textContent =
+          "Sab se pehle company aur Admin account create karo.";
+        setupForm.hidden = false;
+        loginForm.hidden = true;
+      } else {
+        title.textContent = "Welcome back";
+        subtitle.textContent = "Apne account mein login karo.";
+        setupForm.hidden = true;
+        loginForm.hidden = false;
+      }
+    }
+
+    setupForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const result = HCMAuth.createCompanyAdmin({
+        companyName: document.getElementById("companyName").value,
+        adminName: document.getElementById("adminName").value,
+        email: document.getElementById("setupEmail").value,
+        password: document.getElementById("setupPassword").value
+      });
+
+      if (!result.success) {
+        showMessage(result.message, "error");
+        return;
+      }
+
+      showMessage(
+        "Company setup complete! Ab apne Admin account se login karo.",
+        "success"
+      );
+
+      setupForm.reset();
+      initializeAuthPage();
+    });
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const result = HCMAuth.login(email, password);
+
+      if (!result.success) {
+        showMessage(result.message, "error");
+        return;
+      }
+
+      window.location.href =
+        result.user.role === "admin" ? "admin.html" : "employee.html";
+    });
+
+    initializeAuthPage();
+  </script>
+  <script src="js/helper.js"></script>
+  <script src="js/dark-mode.js"></script>
+</body>
+</html>

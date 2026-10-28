@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Settings | HCM Lite</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #182230;
+    }
+    .page {
+      max-width: 850px;
+      margin: 35px auto;
+      padding: 24px;
+    }
+    .topbar, .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px #1822300c;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    h1, h2 { margin-top: 0; }
+    .field { margin: 20px 0; }
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input[type="number"], input[type="time"] {
+      width: 100%;
+      max-width: 350px;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #d7deea;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .days {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .days label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal;
+    }
+    button, .back {
+      display: inline-block;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      background: #2457d6;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 15px;
+    }
+    #settingsMessage { margin-top: 16px; font-weight: bold; }
+    .hint { color: #667085; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <h1>Company Settings</h1>
+        <p class="hint">Office timing, attendance aur leave rules configure karein.</p>
+      </div>
+      <a class="back" href="admin.html">Dashboard</a>
+    </header>
+
+    <section class="panel">
+      <form id="settingsForm">
+        <div class="field">
+          <label for="officeStartTime">Office Start Time</label>
+          <input id="officeStartTime" type="time" value="09:00" required>
+        </div>
+
+        <div class="field">
+          <label for="graceMinutes">Late Grace Period (minutes)</label>
+          <input id="graceMinutes" type="number" min="0" max="180"
+                 value="15" required>
+          <p class="hint">Misal: 15 minutes ka matlab 9:15 ke baad late.</p>
+        </div>
+
+        <div class="field">
+          <label for="annualLeaveQuota">Annual Leave Quota (working days)</label>
+          <input id="annualLeaveQuota" type="number" min="0" max="365"
+                 value="20" required>
+        </div>
+
+        <div class="field">
+          <label>Working Days</label>
+          <div class="days">
+            <label><input type="checkbox" name="workingDays" value="0"> Sunday</label>
+            <label><input type="checkbox" name="workingDays" value="1"> Monday</label>
+            <label><input type="checkbox" name="workingDays" value="2"> Tuesday</label>
+            <label><input type="checkbox" name="workingDays" value="3"> Wednesday</label>
+            <label><input type="checkbox" name="workingDays" value="4"> Thursday</label>
+            <label><input type="checkbox" name="workingDays" value="5"> Friday</label>
+            <label><input type="checkbox" name="workingDays" value="6"> Saturday</label>
+          </div>
+        </div>
+
+        <button type="submit">Save Settings</button>
+        <p id="settingsMessage" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/helper.js"></script>
+  <script src="js/dark-mode.js"></script>
+</body>
+</html>

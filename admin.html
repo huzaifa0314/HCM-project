@@ -1,0 +1,294 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HCM Lite | Admin Dashboard</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/dark-mode.css">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #172033;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    .dashboard {
+      max-width: 1150px;
+      margin: auto;
+      padding: 32px 20px 50px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .header h1 { margin: 0 0 8px; }
+    .header p { margin: 0 0 8px; color: #64748b; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 9px;
+      font: inherit;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-primary { color: white; background: #2563eb; }
+    .btn-secondary { color: #1e40af; background: #eff6ff; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      padding: 23px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 8px 24px #0f172a08;
+      min-width: 0;
+    }
+
+    .card h2 { margin: 0 0 12px; font-size: 1.1rem; }
+    .card p { color: #64748b; line-height: 1.6; }
+    .card .btn { margin-top: 8px; }
+
+    .stat-number {
+      display: block;
+      margin: 8px 0;
+      color: #2563eb;
+      font-size: 32px;
+      font-weight: 750;
+    }
+
+    .welcome {
+      padding: 20px 22px;
+      margin-bottom: 24px;
+      border-radius: 14px;
+      background: #eaf2ff;
+    }
+
+    .welcome p { margin-bottom: 0; }
+
+    .section-title {
+      margin: 30px 0 16px;
+      font-size: 21px;
+    }
+
+    .table-panel {
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: white;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 500px;
+    }
+
+    th, td {
+      padding: 13px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475569;
+    }
+
+    .muted { color: #64748b; }
+
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 19px; }
+      .dashboard { padding: 20px 14px 35px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="dashboard">
+
+    <header class="header">
+      <div>
+        <p id="companyLabel">HCM Lite</p>
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, <strong id="adminName">Admin</strong></p>
+      </div>
+
+      <button id="logoutButton" class="btn btn-secondary" type="button">
+        Logout
+      </button>
+    </header>
+
+    <section class="welcome">
+      <h2>Company Overview</h2>
+      <p>Apni team, attendance, leaves aur payroll ko yahan se manage karein.</p>
+    </section>
+
+    <h2 class="section-title">Company Statistics</h2>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Total Employees</h2>
+        <span class="stat-number" id="totalEmployees">0</span>
+        <p>Registered employees</p>
+        <a class="btn btn-primary" href="employees.html">Manage Employees</a>
+      </article>
+
+      <article class="card">
+        <h2>Checked In Today</h2>
+        <span class="stat-number" id="presentToday">0</span>
+        <p>Employees with today's check-in record</p>
+        <a class="btn btn-primary" href="attendance.html">Open Attendance</a>
+      </article>
+
+      <article class="card">
+        <h2>Pending Leaves</h2>
+        <span class="stat-number" id="pendingLeaves">0</span>
+        <p>Requests waiting for review</p>
+        <a class="btn btn-primary" href="leaves.html">Manage Leaves</a>
+      </article>
+
+      <article class="card">
+        <h2>Attendance Records</h2>
+        <span class="stat-number" id="attendanceRecords">0</span>
+        <p>Total records for today</p>
+        <a class="btn btn-primary" href="attendance.html">View Records</a>
+      </article>
+
+      <article class="card">
+        <h2>Company Settings</h2>
+        <p>Office timing, grace period, annual leave quota aur working days configure karein.</p>
+        <a class="btn btn-primary" href="settings.html">Open Settings</a>
+      </article>
+
+      <article class="card">
+        <h2>Payslips</h2>
+        <p>Monthly salary calculations aur payslips check karein.</p>
+        
+      <a class="btn btn-primary" href="admin-payslip.html">Open Admin Salary Slips</a>
+      </article>
+    </section>
+
+    <section class="table-panel">
+      <h2>Today's Attendance</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="recentAttendanceBody">
+          <tr>
+            <td colspan="4">Attendance data load ho raha hai...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="table-panel">
+      <h2>Pending Leave Requests</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Date Range</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody id="pendingLeaveBody">
+          <tr>
+            <td colspan="3">Leave data load ho raha hai...</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="muted">
+        Leave approve ya reject karne ke liye Leave Management open karein.
+      </p>
+    </section>
+
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      if (!window.HCMAuth || !window.HCMStorage) {
+        alert("Required files load nahi huin. js folder aur script paths check karein.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      const authenticated = window.HCMAuth.requireAuth(["admin"]);
+      const user = window.HCMAuth.getCurrentUser();
+
+      if (!authenticated || !user || user.role !== "admin") {
+        return;
+      }
+
+      const company = window.HCMStorage.get("company", {
+        name: "HCM Lite"
+      });
+
+      document.getElementById("adminName").textContent =
+        user.name || user.fullName || user.email || "Admin";
+
+      document.getElementById("companyLabel").textContent =
+        company.name || "HCM Lite";
+
+      document.getElementById("logoutButton").addEventListener(
+        "click",
+        function () {
+          window.HCMAuth.logout();
+          window.location.href = "index.html";
+        }
+      );
+    })();
+  </script>
+
+  <script src="js/dashboard.js"></script>
+      <!-- Smart Helper -->
+    <script src="js/helper.js"></script>
+<script src="js/dark-mode.js"></script>
+</body>
+</html>
+```

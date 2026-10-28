@@ -1,0 +1,234 @@
+
+/* ========================================
+   HCM LITE — MAIN DESIGN SYSTEM
+   File: css/style.css
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #635bff;
+    --primary-dark: #4f46e5;
+    --primary-light: #eeedff;
+
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --surface-soft: #f9fafb;
+
+    --text: #182230;
+    --text-secondary: #667085;
+    --border: #e8ebf2;
+
+    --success: #15966a;
+    --success-bg: #e8f8f0;
+    --warning: #c78313;
+    --warning-bg: #fff5df;
+    --danger: #d64545;
+    --danger-bg: #fff0f0;
+    --info: #3178d4;
+    --info-bg: #eaf3ff;
+
+    --sidebar-width: 250px;
+    --topbar-height: 76px;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    --shadow-sm: 0 2px 8px rgba(16, 24, 40, 0.04);
+    --shadow-md: 0 10px 30px rgba(16, 24, 40, 0.06);
+
+    --transition: 180ms ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img,
+svg {
+    max-width: 100%;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(99, 91, 255, 0.3);
+    outline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+    margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    line-height: 1.3;
+    letter-spacing: -0.035em;
+}
+
+h1 {
+    font-size: clamp(25px, 3vw, 32px);
+    font-weight: 800;
+}
+
+h2 {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+.muted {
+    color: var(--text-secondary);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-danger {
+    color: var(--danger);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-1 { gap: 8px; }
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 24px; }
+
+.container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.page-content {
+    padding: 30px;
+}
+
+.page-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.page-heading h1 {
+    margin-bottom: 8px;
+}
+
+.page-heading p {
+    margin-bottom: 0;
+}
+
+.section {
+    margin-bottom: 26px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.section-heading h2,
+.section-heading h3 {
+    margin-bottom: 0;
+}
+
+.divider {
+    height: 1px;
+    border: 0;
+    background: var(--border);
+    margin: 20px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

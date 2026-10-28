@@ -1,0 +1,248 @@
+
+/* ========================================
+   HCM LITE — RESPONSIVE DESIGN
+   File: css/responsive.css
+======================================== */
+
+@media (max-width: 1200px) {
+    :root {
+        --sidebar-width: 225px;
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .page-content {
+        padding: 24px;
+    }
+
+    .topbar {
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --sidebar-width: 250px;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 220ms ease;
+        box-shadow: var(--shadow-md);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-area {
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: inline-grid;
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --topbar-height: 65px;
+    }
+
+    .topbar {
+        min-height: var(--topbar-height);
+        padding: 11px 15px;
+        gap: 10px;
+    }
+
+    .topbar-left,
+    .topbar-right {
+        gap: 9px;
+    }
+
+    .topbar-subtitle,
+    .user-info {
+        display: none;
+    }
+
+    .page-content {
+        padding: 19px 15px;
+    }
+
+    .page-heading {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 13px;
+        margin-bottom: 22px;
+    }
+
+    .page-heading h1 {
+        font-size: 25px;
+    }
+
+    .page-heading .btn {
+        align-self: flex-start;
+    }
+
+    .grid-4,
+    .grid-3,
+    .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .card {
+        padding: 17px;
+        border-radius: 15px;
+    }
+
+    .stat-value {
+        font-size: 27px;
+    }
+
+    .toolbar,
+    .toolbar-group {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .toolbar .btn,
+    .toolbar .form-control,
+    .toolbar-group .btn,
+    .toolbar-group .form-control {
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .app-footer {
+        padding: 20px 15px;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 360px) {
+    .brand-name {
+        font-size: 17px;
+    }
+
+    .page-content {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+}
+
+/* HCM Lite - Step 11 responsive layout */
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+img {
+  height: auto;
+}
+
+table {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  main,
+  .container,
+  .dashboard-container,
+  .page-container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .stats-grid,
+  .stats-container,
+  .dashboard-stats,
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sidebar {
+    max-width: 100%;
+  }
+
+  .page-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .table-container,
+  .table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 560px;
+  }
+
+  input,
+  select,
+  textarea {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid,
+  .stats-container,
+  .dashboard-stats,
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  button {
+    max-width: 100%;
+  }
+
+  .card,
+  .stat-card,
+  .dashboard-card {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .hcm-toast {
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
+  }
+}
